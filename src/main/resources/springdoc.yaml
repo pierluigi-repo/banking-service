@@ -1,0 +1,149 @@
+api:
+
+  info:
+    version: 1.0.0
+    title: Banking APIs
+    description: A simple application to execute operations on bank account.
+
+  banking:
+
+    balance:
+      account: The id of the account.
+      summary: Shows the account balance.
+      description: |
+        # Correct response
+        If the account is found, the service will return 200 HTTP status code. The response payload is a json object containing the following information:
+        1. balance: Double
+        2. currency: String
+
+        # Error responses
+        In the following cases, an error response is returned:
+
+        ## The account id param is missing or invalid
+        400 - BAD REQUEST with json response:
+
+        ```        
+        {
+            "code": "ERRBNK",
+            "description": "Missing or invalid required request params"
+        }        
+        ```
+
+        ## Generic errors
+        500 - INTERNAL SERVER ERROR with json response:
+
+        ```
+        {
+            "code": "ERRBNK",
+            "description": "An error occurred while calling the service"
+        }
+        ```
+
+        ## Other
+        Other errors, such as when the account id is not found, status code returned is 403 - FORBIDDEN. The json response structure is always:
+        ```
+        {
+            "code": "string",
+            "description": "string"
+        }
+        ```
+        
+        Some internal error descriptions are both available in English and Italian, you can pass Accept-Language header to retrieve a specific translation (e.g. en-US or it-IT).
+
+    transactions:
+      account: The id of the account.
+      date:
+        from: The date from which data should be retrieved.
+        to: The date to which data should be retrieved.
+      summary: Shows the account transactions between the specified dates.
+      description: |
+        # Correct response
+        If the account is found and provided dates are correct, the service will return 200 HTTP status code. The response payload is a json array containing the following information:
+        1. accountingDate: Date ISO format
+        2. valueDate: Date ISO format
+        3. type.enumeration: String
+        4. type.value: String
+        5. amount: Double
+        6. currency: String
+        7. description: String
+
+        # Error responses
+        In the following cases, an error response is returned:
+
+        ## A request param is missing or invalid
+        400 - BAD REQUEST with json response:
+
+        ```        
+        {
+            "code": "ERRBNK",
+            "description": "Missing or invalid required request params"
+        }        
+        ```
+
+        ## Generic errors
+        500 - INTERNAL SERVER ERROR with json response:
+
+        ```
+        {
+            "code": "ERRBNK",
+            "description": "An error occurred while calling the service"
+        }
+        ```
+
+        ## Other
+        Other errors, such as when the account id is not found, status code returned is 403 - FORBIDDEN. The json response structure is always:
+        ```
+        {
+            "code": "string",
+            "description": "string"
+        }
+        ```
+        
+        Some internal error descriptions are both available in English and Italian, you can pass Accept-Language header to retrieve a specific translation (e.g. en-US or it-IT).
+
+    transfers:
+      summary: Executes a money transfer.
+      body:
+        description: Payment info.
+      description: |
+        # Correct response
+        If provided request body fields are correct, the service will return 200 HTTP status code. The response payload is a json object containing the following information:
+        1. status: String
+        2. direction: String
+        3. description: String
+        4. creditor.name: String
+        5. creditor.account.accountCode: String
+  
+        # Error responses
+        In the following cases, an error response is returned:
+
+        ## A request body field is missing or invalid
+        400 - BAD REQUEST with json response:
+
+        ```        
+        {
+            "code": "ERRBNK",
+            "description": "Missing or invalid required request params"
+        }        
+        ```
+
+        ## Generic errors
+        500 - INTERNAL SERVER ERROR with json response:
+
+        ```
+        {
+            "code": "ERRBNK",
+            "description": "An error occurred while calling the service"
+        }
+        ```
+
+        ## Other
+        Other errors, such as when the account id is not found, status code returned is 403 - FORBIDDEN. The json response structure is always:
+        ```
+        {
+            "code": "string",
+            "description": "string"
+        }
+        ```
+        
+        Some internal error descriptions are both available in English and Italian, you can pass Accept-Language header to retrieve a specific translation (e.g. en-US or it-IT).
